@@ -1,0 +1,15 @@
+### Create a new Cliente
+POST http://localhost:8080/api/v1/clientes/create
+Content-Type: application/json
+Authorization: Basic ZnVsYW5vOnNlbmhhRG9GdWxhbm8=
+Origin: http://localhost:4200
+
+{
+  "nome": "Caliel Jesus",
+  "endereco": "123 Main St",
+  "bairro": "Centro",
+  "telefones": [
+    { "numero": "62983025362" },
+    { "numero": "62983021234" }
+  ]
+}

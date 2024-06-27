@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cliente-cadastro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cliente-cadastro
+  template:
+    metadata:
+      labels:
+        app: cliente-cadastro
+    spec:
+      containers:
+        - name: cliente-cadastro
+          image: your-docker-repo/cliente-cadastro:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/your_database
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: APP_SECURITY_USER
+              value: ${app.security.user}
+            - name: APP_SECURITY_PASSWORD
+              value: ${app.security.password}
+            - name: APP_SECURITY_FRONTEND_URL
+              value: ${app.security.frontend-url}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cliente-cadastro
+spec:
+  type: ClusterIP
+  selector:
+    app: cliente-cadastro
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

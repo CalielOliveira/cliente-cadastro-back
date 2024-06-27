@@ -1,21 +1,21 @@
 version: '3.8'
 
 services:
-  postgres:
+  cliente-postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: cliente-postgres
     environment:
-      POSTGRES_DB: your_database_name
-      POSTGRES_USER: your_database_username
-      POSTGRES_PASSWORD: your_database_password
+      POSTGRES_DB: cliente
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root@123
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  app:
+  cliente-back:
     build: .
-    container_name: spring_app
+    container_name: cliente_back
     ports:
       - "8080:8080"
     environment:
@@ -26,7 +26,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
     depends_on:
-      - postgres
+      - cliente-postgres
 
 volumes:
   postgres_data:

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Caliel Oliveira">
+        <createTable tableName="cliente">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="VARCHAR(130)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="endereco" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bairro" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Caliel Oliveira">
+        <createTable tableName="telefone">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="numero" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cliente_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Caliel Oliveira">
+        <addForeignKeyConstraint baseColumnNames="cliente_id"
+                                 baseTableName="telefone"
+                                 constraintName="fk_telefone_cliente"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cliente"/>
+    </changeSet>
+
+</databaseChangeLog>
